@@ -1,2 +1,1 @@
-# boot-camp-module-13-e-commerce
- 
+# Boot Camp - Module 13 - Object-Relational Mapping (ORM) Challenge: E-commerce Back End
