@@ -3,24 +3,47 @@ const { Product, Category, Tag, ProductTag } = require("../../models");
 
 // /api/products
 
-// GET all products
-// TODO: Include associated Category and Tag data
+// GET (READ) all products
 router.get("/", async (req, res) => {
   try {
-    const productData = await Product.findAll();
+    const productData = await Product.findAll({
+      include: [
+        { model: Category },
+        {
+          model: Tag,
+          attributes: ["tag_name"],
+          through: ProductTag,
+          as: "productTag_products",
+        },
+      ],
+    });
     res.status(200).json(productData);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// get one product
-router.get("/:id", (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+// GET (READ) a single product
+router.get("/:id", async (req, res) => {
+  try {
+    const productData = await Product.findByPk(req.params.id, {
+      include: [
+        { model: Category },
+        {
+          model: Tag,
+          attributes: ["tag_name"],
+          through: ProductTag,
+          as: "productTag_products",
+        },
+      ],
+    });
+    res.status(200).json(productData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-// create new product
+// POST (CREATE) a new product
 router.post("/", (req, res) => {
   /* req.body should look like this...
     {
@@ -52,7 +75,7 @@ router.post("/", (req, res) => {
     });
 });
 
-// update product
+// PUT (UPDATE) a product by its id value
 router.put("/:id", (req, res) => {
   // update product data
   Product.update(req.body, {
@@ -89,13 +112,21 @@ router.put("/:id", (req, res) => {
     })
     .then((updatedProductTags) => res.json(updatedProductTags))
     .catch((err) => {
-      // console.log(err);
       res.status(400).json(err);
     });
 });
 
-router.delete("/:id", (req, res) => {
-  // delete one product by its `id` value
+// DELETE (DELETE) a product by its id value
+router.delete("/:id", async (req, res) => {
+  const productData = Product.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((productData) => res.status(200).json(productData))
+    .catch((err) => {
+      res.json(500).json(err);
+    });
 });
 
 module.exports = router;
