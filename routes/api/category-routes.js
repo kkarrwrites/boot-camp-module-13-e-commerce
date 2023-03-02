@@ -3,7 +3,7 @@ const { Category, Product } = require("../../models");
 
 // /api/categories
 
-// GET all categories
+// GET (READ) all categories
 router.get("/", async (req, res) => {
   try {
     const categoryData = await Category.findAll({ include: Product });
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET a single category
+// GET (READ) a single category
 router.get("/:id", async (req, res) => {
   try {
     const categoryData = await Category.findByPk(req.params.id, {
@@ -25,7 +25,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST a new category
+// POST (CREATE) a new category
 router.post("/", async (req, res) => {
   try {
     const categoryData = await Category.create(req.body);
@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT (update) a category by its id value
+// PUT (UPDATE) a category by its id value
 router.put("/:id", async (req, res) => {
   const categoryData = await Category.update(req.body, {
     where: {
@@ -50,7 +50,7 @@ router.put("/:id", async (req, res) => {
     });
 });
 
-// DELETE a category by its id value
+// DELETE (DELETE) a category by its id value
 router.delete("/:id", async (req, res) => {
   const categoryData = Category.destroy({
     where: {
