@@ -10,7 +10,7 @@ This is a backend for an e-commerce site built using Express.js API and Sequeliz
 
 ## Walkthrough
 
-[Video Walkthrough]()
+[Video Walkthrough](https://drive.google.com/file/d/1Kxt0JLCalb-GalqANyjuLgYpFpEKI08J/view)
 
 ## Screenshot
 
